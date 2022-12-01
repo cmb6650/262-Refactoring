@@ -102,34 +102,40 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 	}
 
 	public void actionPerformed( ActionEvent e ) {
-		if ( lane.isPartyAssigned() ) { 
-			if (e.getSource().equals(viewPinSetter)) {
-				if ( psShowing == false ) {
-					psv.show();
-					psShowing=true;
-				} else if ( psShowing == true ) {
-					psv.hide();
-					psShowing=false;
-				}
-			}
+		if ( lane.isPartyAssigned() && e.getSource().equals(viewPinSetter)) {
+			isViewPinSetter();
 		}
-		if (e.getSource().equals(viewLane)) {
-			if ( lane.isPartyAssigned() ) { 
-				if ( laneShowing == false ) {
-					lv.show();
-					laneShowing=true;
-				} else if ( laneShowing == true ) {
-					lv.hide();
-					laneShowing=false;
-				}
-			}
+		if ( lane.isPartyAssigned() && e.getSource().equals(viewLane)) {
+			isViewLane();
 		}
-		if (e.getSource().equals(maintenance)) {
-			if ( lane.isPartyAssigned() ) {
-				lane.unPauseGame();
-				maintenance.setBackground( Color.GREEN );
-			}
+		if ( lane.isPartyAssigned() && e.getSource().equals(maintenance)) {
+			isMaintenance();
 		}
+	}
+
+	public void isViewPinSetter() {
+		if ( !psShowing ) {
+			psv.show();
+			psShowing=true;
+		} else if ( psShowing ) {
+			psv.hide();
+			psShowing=false;
+		}
+	}
+
+	public void isViewLane() {
+		if ( !laneShowing ) {
+			lv.show();
+			laneShowing=true;
+		} else if ( laneShowing ) {
+			lv.hide();
+			laneShowing=false;
+		}
+	}
+
+	public void isMaintenance() {
+		lane.unPauseGame();
+		maintenance.setBackground( Color.GREEN );
 	}
 
 	public void receiveLaneEvent(LaneEvent le) {

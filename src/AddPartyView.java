@@ -157,31 +157,46 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(addPatron)) {
-			if (selectedNick != null && party.size() < maxSize) {
-				if (party.contains(selectedNick)) {
-					System.err.println("Member already in Party");
-				} else {
-					party.add(selectedNick);
-					partyList.setListData(party);
-				}
-			}
+			isAddPatron();
 		}
 		if (e.getSource().equals(remPatron)) {
-			if (selectedMember != null) {
-				party.removeElement(selectedMember);
+			isRemPatron();
+		}
+		if (e.getSource().equals(newPatron)) {
+			isNewPatron();
+		}
+		if (e.getSource().equals(finished)) {
+			isFinished();
+		}
+	}
+
+	public void isAddPatron() {
+		if (selectedNick != null && party.size() < maxSize) {
+			if (party.contains(selectedNick)) {
+				System.err.println("Member already in Party");
+			} else {
+				party.add(selectedNick);
 				partyList.setListData(party);
 			}
 		}
-		if (e.getSource().equals(newPatron)) {
-			NewPatronView newPatron = new NewPatronView( this );
-		}
-		if (e.getSource().equals(finished)) {
-			if ( party != null && party.size() > 0) {
-				controlDesk.updateAddParty( this );
-			}
-			win.hide();
-		}
+	}
 
+	public void isRemPatron() {
+		if (selectedMember != null) {
+			party.removeElement(selectedMember);
+			partyList.setListData(party);
+		}
+	}
+
+	public void isNewPatron() {
+		NewPatronView newPatron = new NewPatronView( this );
+	}
+
+	public void isFinished() {
+		if ( party != null && party.size() > 0) {
+			controlDesk.updateAddParty( this );
+		}
+		win.hide();
 	}
 
 /**
