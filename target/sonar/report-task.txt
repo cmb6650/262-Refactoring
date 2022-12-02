@@ -1,0 +1,6 @@
+projectKey=groupId:RefactoringProject
+serverUrl=http://localhost:9000
+serverVersion=9.7.1.62043
+dashboardUrl=http://localhost:9000/dashboard?id=groupId%3ARefactoringProject
+ceTaskId=AYS_vceRsoEtyqChZ7fW
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYS_vceRsoEtyqChZ7fW
