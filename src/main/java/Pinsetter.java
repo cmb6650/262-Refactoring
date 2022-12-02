@@ -78,6 +78,7 @@ public class Pinsetter {
 	private Random rnd;
 	private Vector subscribers;
 
+
 	private boolean[] pins; 
 			/* 0-9 of state of pine, true for standing, 
 			false for knocked down
