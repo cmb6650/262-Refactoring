@@ -2,5 +2,5 @@ projectKey=262-refactoring
 serverUrl=http://localhost:9000
 serverVersion=9.7.1.62043
 dashboardUrl=http://localhost:9000/dashboard?id=262-refactoring
-ceTaskId=AYTVSKK4tFvKHKs51GRR
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYTVSKK4tFvKHKs51GRR
+ceTaskId=AYTVS3S3tFvKHKs51GRS
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYTVS3S3tFvKHKs51GRS

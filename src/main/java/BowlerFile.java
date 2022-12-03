@@ -55,8 +55,10 @@ class BowlerFile {
 				return (new Bowler(bowler[0], bowler[1], bowler[2]));
 			}
 		}
+		in.close();
 		System.out.println("Nick not found...");
 		return null;
+
 	}
 
     /**
