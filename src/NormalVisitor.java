@@ -23,35 +23,24 @@ public class NormalVisitor implements LaneScoreVisitor{
 
     @Override
     public void visitNormal() {
-        if( index%2 == 0 && index < 18){
-            if ( index/2 == 0 ) {
-                //First frame, first ball.  Set his cumul score to the first ball
-                if(curScore[index] != -2){
-                    cumulScores[bowlIndex][index/2] += curScore[index];
+        if(index < 18) {
+            if (index % 2 == 0) {
+                if (index/2 != 0) {
+                    cumulScores[bowlIndex][index / 2] += cumulScores[bowlIndex][index / 2 - 1];
                 }
-            } else if (index/2 != 9){
-                //add his last frame's cumul to this ball, make it this frame's cumul.
-                if(curScore[index] != -2){
-                    cumulScores[bowlIndex][index/2] += cumulScores[bowlIndex][index/2 - 1] + curScore[index];
-                } else {
-                    cumulScores[bowlIndex][index/2] += cumulScores[bowlIndex][index/2 - 1];
+                if (curScore[index] != -2) {
+                    cumulScores[bowlIndex][index / 2] += curScore[index];
                 }
-            }
-        } else if (index < 18){
-            if(curScore[index] != -1 && index > 2){
-                if(curScore[index] != -2){
-                    cumulScores[bowlIndex][index/2] += curScore[index];
+            } else {
+                if (curScore[index] != -1 && index > 2 && curScore[index] != -2) {
+                    cumulScores[bowlIndex][index / 2] += curScore[index];
                 }
             }
         }
-        if (index/2 == 9){
+        if (index/2 == 9 || index/2 == 10 && !(index/2 == 9 && index/2 == 10)){
             if (index == 18){
                 cumulScores[bowlIndex][9] += cumulScores[bowlIndex][8];
             }
-            if(curScore[index] != -2){
-                cumulScores[bowlIndex][9] += curScore[index];
-            }
-        } else if (index/2 == 10) {
             if(curScore[index] != -2){
                 cumulScores[bowlIndex][9] += curScore[index];
             }
