@@ -17,12 +17,9 @@ public class NormalVisitor implements LaneScoreVisitor{
         return cumulScores[bowlIndex];
     }
 
-    @Override
-    public void visitStrike() {
-    }
 
     @Override
-    public void visitNormal() {
+    public void calcScore() {
         if(index < 18) {
             if (index % 2 == 0) {
                 if (index/2 != 0) {
@@ -31,10 +28,8 @@ public class NormalVisitor implements LaneScoreVisitor{
                 if (curScore[index] != -2) {
                     cumulScores[bowlIndex][index / 2] += curScore[index];
                 }
-            } else {
-                if (curScore[index] != -1 && index > 2 && curScore[index] != -2) {
-                    cumulScores[bowlIndex][index / 2] += curScore[index];
-                }
+            } else if (curScore[index] != -1 && index > 2 && curScore[index] != -2) {
+                cumulScores[bowlIndex][index / 2] += curScore[index];
             }
         }
         if (index/2 == 9 || index/2 == 10 && !(index/2 == 9 && index/2 == 10)){

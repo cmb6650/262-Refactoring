@@ -457,7 +457,7 @@ public class Lane extends Thread implements PinsetterObserver {
 					//Add up the strike.
 					//Add the next two balls to the current cumulscore.
 					StrikeVisitor visitor = new StrikeVisitor(this, i, curScore);
-					visitor.visitStrike();
+					visitor.calcScore();
 					cumulScores[bowlIndex] = visitor.getCumulScores();
 				} else {
 					break;
@@ -465,7 +465,7 @@ public class Lane extends Thread implements PinsetterObserver {
 			} else {
 				//We're dealing with a normal throw, add it and be on our way.
 				NormalVisitor visitor = new NormalVisitor(this, i, curScore);
-				visitor.visitNormal();
+				visitor.calcScore();
 				cumulScores[bowlIndex] = visitor.getCumulScores();
 			}
 		}

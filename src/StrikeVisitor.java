@@ -18,7 +18,7 @@ public class StrikeVisitor implements LaneScoreVisitor{
     }
 
     @Override
-    public void visitStrike() {
+    public void calcScore() {
         cumulScores[bowlIndex][index/2] += 10;
         if(curScore[index+1] != -1) {
             cumulScores[bowlIndex][index/2] += curScore[index+1] + cumulScores[bowlIndex][(index/2)-1];
@@ -39,9 +39,5 @@ public class StrikeVisitor implements LaneScoreVisitor{
                 cumulScores[bowlIndex][(index/2)] += curScore[index+4];
             }
         }
-    }
-
-    @Override
-    public void visitNormal() {
     }
 }

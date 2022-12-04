@@ -1,4 +1,3 @@
 public interface LaneScoreVisitor {
-    void visitStrike();
-    void visitNormal();
+    void calcScore();
 }
