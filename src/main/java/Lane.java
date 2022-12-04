@@ -160,6 +160,8 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	private PinsetterReceiver receiver;
 
+	private LaneScoreState scoreState;
+
 	/** Lane()
 	 * 
 	 * Constructs a new lane and starts its thread
@@ -197,6 +199,10 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	public void setCanThrowAgain(boolean canThrowAgain) {
 		this.canThrowAgain = canThrowAgain;
+	}
+
+	public void setScoreState(LaneScoreState state) {
+		scoreState = state;
 	}
 
 	/** run()
@@ -459,17 +465,17 @@ public class Lane extends Thread implements PinsetterObserver {
 				if ((curScore[i+3] != -1 || curScore[i+4] != -1) && !(curScore[i+3] != -1 && curScore[i+4] != -1)){
 					//Add up the strike.
 					//Add the next two balls to the current cumulscore.
-					StrikeVisitor visitor = new StrikeVisitor(this, i, curScore);
-					visitor.calcScore();
-					cumulScores[bowlIndex] = visitor.getCumulScores();
+					setScoreState(new StrikeScoreState(this, i, curScore));
+					scoreState.calcScore();
+					cumulScores[bowlIndex] = scoreState.getCumulScores();
 				} else {
 					break;
 				}
 			} else {
 				//We're dealing with a normal throw, add it and be on our way.
-				NormalVisitor visitor = new NormalVisitor(this, i, curScore);
-				visitor.calcScore();
-				cumulScores[bowlIndex] = visitor.getCumulScores();
+				setScoreState(new NormalScoreState(this, i, curScore));
+				scoreState.calcScore();
+				cumulScores[bowlIndex] = scoreState.getCumulScores();
 			}
 		}
 		return totalScore;

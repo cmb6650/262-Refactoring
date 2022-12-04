@@ -1,22 +1,20 @@
-import java.util.Arrays;
-
-public class NormalVisitor implements LaneScoreVisitor{
+public class NormalScoreState implements LaneScoreState {
     private int index;
     private int[] curScore;
     private int bowlIndex;
     private int[][] cumulScores;
 
-    public NormalVisitor(Lane l, int index, int[] curScore) {
+    public NormalScoreState(Lane l, int index, int[] curScore) {
         this.index = index;
         this.curScore = curScore;
         this.bowlIndex = l.getBowlIndex();
         this.cumulScores = l.getCumulScores();
     }
 
+    @Override
     public int[] getCumulScores() {
         return cumulScores[bowlIndex];
     }
-
 
     @Override
     public void calcScore() {
