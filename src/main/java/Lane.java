@@ -158,6 +158,8 @@ public class Lane extends Thread implements PinsetterObserver {
 	
 	private Bowler currentThrower;			// = the thrower who just took a throw
 
+	private PinsetterReceiver receiver;
+
 	/** Lane()
 	 * 
 	 * Constructs a new lane and starts its thread
@@ -178,6 +180,23 @@ public class Lane extends Thread implements PinsetterObserver {
 		setter.subscribe( this );
 		
 		this.start();
+	}
+
+
+	private void setReceiver(PinsetterReceiver r){
+		this.receiver = r;
+	}
+
+	public boolean getTenthFrameStrike() {
+		return tenthFrameStrike;
+	}
+
+	public void setTenthFrameStrike(boolean tenthFrameStrike) {
+		this.tenthFrameStrike = tenthFrameStrike;
+	}
+
+	public void setCanThrowAgain(boolean canThrowAgain) {
+		this.canThrowAgain = canThrowAgain;
 	}
 
 	/** run()
@@ -289,6 +308,8 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * @param pe 		The pinsetter event that has been received.
 	 */
 	public void receivePinsetterEvent(PinsetterEvent pe) {
+
+		this.receiver.receive(pe);
 		
 			if (pe.pinsDownOnThisThrow() >=  0) {			// this is a real throw
 				markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
@@ -296,32 +317,14 @@ public class Lane extends Thread implements PinsetterObserver {
 				// next logic handles the ?: what conditions dont allow them another throw?
 				// handle the case of 10th frame first
 				if (frameNumber == 9) {
-					if (pe.totalPinsDown() == 10) {
-						setter.resetPins();
-						if(pe.getThrowNumber() == 1) {
-							tenthFrameStrike = true;
-						}
-					}
-				
-					if ((pe.totalPinsDown() != 10) && (pe.getThrowNumber() == 2 && tenthFrameStrike == false)) {
-						canThrowAgain = false;
-						//publish( lanePublish() );
-					}
-				
-					if (pe.getThrowNumber() == 3) {
-						canThrowAgain = false;
-						//publish( lanePublish() );
-					}
+					PinsetterReceiver newReceiver = new receiveNine(this);
+					this.setReceiver(newReceiver);
+					this.receiver.receive(pe);
+
 				} else { // its not the 10th frame
-			
-					if (pe.pinsDownOnThisThrow() == 10) {		// threw a strike
-						canThrowAgain = false;
-						//publish( lanePublish() );
-					} else if (pe.getThrowNumber() == 2) {
-						canThrowAgain = false;
-						//publish( lanePublish() );
-					} else if (pe.getThrowNumber() == 3)  
-						System.out.println("I'm here...");
+					PinsetterReceiver newReceiver = new elseReceiver(this);
+					this.setReceiver(newReceiver);
+					this.receiver.receive(pe);
 				}
 			} else {								//  this is not a real throw, probably a reset
 			}
@@ -494,7 +497,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * 
 	 * Method that will add a subscriber
 	 * 
-	 * @param subscribe	Observer that is to be added
+	 * @param adding	Observer that is to be added
 	 */
 
 	public void subscribe( LaneObserver adding ) {
