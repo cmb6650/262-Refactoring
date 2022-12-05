@@ -49,4 +49,8 @@ public class Party {
 		return myBowlers;
     }
 
+	public int getPartySize(){
+		return myBowlers.size();
+	}
+
 }
