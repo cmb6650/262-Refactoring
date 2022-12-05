@@ -314,26 +314,23 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * @param pe 		The pinsetter event that has been received.
 	 */
 	public void receivePinsetterEvent(PinsetterEvent pe) {
-
-		this.receiver.receive(pe);
-		
-			if (pe.pinsDownOnThisThrow() >=  0) {			// this is a real throw
-				markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
+		if (pe.pinsDownOnThisThrow() >=  0) {			// this is a real throw
+			markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
 	
-				// next logic handles the ?: what conditions dont allow them another throw?
-				// handle the case of 10th frame first
-				if (frameNumber == 9) {
-					PinsetterReceiver newReceiver = new receiveNine(this);
-					this.setReceiver(newReceiver);
-					this.receiver.receive(pe);
+			// next logic handles the ?: what conditions dont allow them another throw?
+			// handle the case of 10th frame first
+			if (frameNumber == 9) {
+				PinsetterReceiver newReceiver = new receiveNine(this);
+				this.setReceiver(newReceiver);
+				this.receiver.receive(pe);
 
-				} else { // its not the 10th frame
-					PinsetterReceiver newReceiver = new elseReceiver(this);
-					this.setReceiver(newReceiver);
-					this.receiver.receive(pe);
-				}
-			} else {								//  this is not a real throw, probably a reset
+			} else { // its not the 10th frame
+				PinsetterReceiver newReceiver = new elseReceiver(this);
+				this.setReceiver(newReceiver);
+				this.receiver.receive(pe);
 			}
+		} else {								//  this is not a real throw, probably a reset
+		}
 	}
 	
 	/** resetBowlerIterator()
